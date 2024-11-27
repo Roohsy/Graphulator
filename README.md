@@ -10,7 +10,8 @@ Na Tang <br />
 Our project will consist of creating an online web application that can graph a given function and provide other tools for calculating different statistics/values, such as the derivative and integral. Our application will be enabled through the use of a cloud service that provides all the necessary resources for our project to run. 
 ## Project Structure: <br />
 Project Name: Graphulator <br />
-Frontend: graphulator.com <br />
+### Frontend: <br />
+graphulator.com <br />
 Technologies/Languages <br />
 Javascript <br />
 HTML <br />
@@ -22,7 +23,8 @@ Top-half – graph <br />
 Bottom-half – User input <br />
 Home Page - Provides help section, access to previous graphs, or creating a new graph <br />
 Calculator Page - Allows basic scientific calculator functionality <br />
-Backend: Database and APIs <br />
+### Backend: <br />
+Database and APIs <br />
 GCP Technologies <br />
 Cloud Storage <br />
 Cloud Engine <br />
