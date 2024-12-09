@@ -46,9 +46,19 @@
 
         <!-- Right Container: Graph and Calculations -->
         <div class="w-2/3 pl-4">
-            <div class="mb-4">
+            <div class="mb-4 relative">
                 <h2 class="font-bold mb-2">Graphulator</h2>
+                <div id="loading" class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50 hidden">
+                  <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 border-solid"></div>
+                </div>
                 <div id="graphContainer" class="w-full h-[400px]"></div>
+                <button 
+                  id="loadGraphDataButton" 
+                  onclick="loadGraphData()" 
+                  class="absolute top-2 right-2 bg-blue-500 text-white px-4 py-2 rounded text-sm hover:bg-blue-600 shadow-lg"
+                >
+                  Load GraphData
+              </button>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
@@ -98,28 +108,16 @@
                 </div>
             </div>
         </div>
+      </div>
     </div>
 
     <script>
         // Mathematical Function Utility
         class Graphulator {
-            // Color palette for multiple graphs
-            static COLORS = [
-                'rgb(31, 119, 180)',   // Blue
-                'rgb(255, 127, 14)',   // Orange
-                'rgb(44, 160, 44)',    // Green
-                'rgb(214, 39, 40)',    // Red
-                'rgb(148, 103, 189)',  // Purple
-                'rgb(140, 86, 75)',    // Brown
-                'rgb(227, 119, 194)',  // Pink
-                'rgb(127, 127, 127)',  // Gray
-                'rgb(188, 189, 34)',   // Olive
-                'rgb(23, 190, 207)'    // Cyan
-            ];
 
             // Normalize function input to handle various formats
             normalizeFunction(func) {
-                func = func.replace(/\s+/g, ''); // Remove all spaces
+                func = func.replace(/\s+/g, ""); // Remove all spaces
 
                 // Handle vertical line expressions
                 if (/^x=\-?\d+(\.\d+)?$/.test(func)) {
@@ -127,60 +125,25 @@
                     return { isVertical: true, xValue: parseFloat(value) };
                 }
 
-                // Remove 'y=' prefix if present
-                if (func.startsWith('y=')) {
+                // Remove "y=" prefix if present
+                if (func.startsWith("y=")) {
                     func = func.slice(2);
                 }
 
                 // Replace `^` with `**` for exponentiation
-                func = func.replace(/(\w|\))\^(\w|\()/g, '$1**$2');
+                func = func.replace(/(\w|\))\^(\w|\()/g, "$1**$2");
 
                 // Replace common math functions with JavaScript equivalents
-                func = func.replace(/\bsin\(/g, 'Math.sin(')
-                        .replace(/\bcos\(/g, 'Math.cos(')
-                        .replace(/\btan\(/g, 'Math.tan(')
-                        .replace(/\bexp\(/g, 'Math.exp(')
-                        .replace(/\blog\(/g, 'Math.log(')
-                        .replace(/\bsqrt\(/g, 'Math.sqrt(')
-                        .replace(/\bpow\(/g, 'Math.pow(');
+                func = func.replace(/\bsin\(/g, "Math.sin(")
+                        .replace(/\bcos\(/g, "Math.cos(")
+                        .replace(/\btan\(/g, "Math.tan(")
+                        .replace(/\bexp\(/g, "Math.exp(")
+                        .replace(/\blog\(/g, "Math.log(")
+                        .replace(/\bsqrt\(/g, "Math.sqrt(")
+                        .replace(/\bpow\(/g, "Math.pow(");
 
                 // Return the normalized function
                 return { isVertical: false, func: `(x) => ${func}` };
-            }
-
-
-            generateGraphPoints(funcs, range = { min: -10, max: 10 }, steps = 200) {
-                const allPoints = [];
-                
-                funcs.forEach((func, index) => {
-                    const points = { x: [], y: [], name: func, color: Graphulator.COLORS[index % Graphulator.COLORS.length] };
-                    const step = (range.max - range.min) / steps;
-                    
-                    const normalizedFunc = this.normalizeFunction(func);
-                    if (normalizedFunc.isVertical) {
-                        const xValue = normalizedFunc.xValue;
-                        for (let y = range.min; y <= range.max; y += step) {
-                            points.x.push(xValue);
-                            points.y.push(y);
-                        }
-                    } else {
-                        const f = Function(`return ${normalizedFunc.func}`)();
-                        for (let x = range.min; x <= range.max; x += step) {
-                            try {
-                                const y = f(x);
-                                if (!isNaN(y) && isFinite(y)) {
-                                    points.x.push(x);
-                                    points.y.push(y);
-                                }
-                            } catch (error) {
-                                console.error('Error calculating point:', error);
-                            }
-                        }
-                    }
-                    allPoints.push(points);
-                });
-                
-                return allPoints;
             }
 
             calculateDerivative(func, x, h = 0.0001) {
@@ -213,10 +176,10 @@
 
                 for (let i = 1; i < n; i++) {
                     const x = a + i * h;
-                    sum += (i % 2 === 0 ? 2 : 4) * f(x); // Simpson's rule coefficients
+                    sum += (i % 2 === 0 ? 2 : 4) * f(x); // Simpson"s rule coefficients
                 }
 
-                return Number(((h / 3) * sum).toFixed(6)); // Simpson's rule formula
+                return Number(((h / 3) * sum).toFixed(6)); // Simpson"s rule formula
             }
         }
 
@@ -225,9 +188,9 @@
 
         // Add a new expression row
         function addExpressionRow(button) {
-            const expressionList = document.getElementById('expressionList');
-            const newRow = document.createElement('div');
-            newRow.className = 'expression-row flex items-center space-x-2';
+            const expressionList = document.getElementById("expressionList");
+            const newRow = document.createElement("div");
+            newRow.className = "expression-row flex items-center space-x-2";
             newRow.innerHTML = `
                 <input 
                     type="text" 
@@ -252,75 +215,105 @@
 
         // Remove an expression row
         function removeExpressionRow(button) {
-            const expressionList = document.getElementById('expressionList');
+            const expressionList = document.getElementById("expressionList");
             // Prevent removing the last row
             if (expressionList.children.length > 1) {
-                button.closest('.expression-row').remove();
+                button.closest(".expression-row").remove();
                 // Regenerate the graph after removing a row
                 generateGraph();
             }
         }
 
-        // Graph Generation Function
-        function generateGraph() {
-            const expressionInputs = document.querySelectorAll('.function-input');
-            const functions = Array.from(expressionInputs)
-                .map(input => input.value.trim())
-                .filter(func => func !== '');
-            
-            try {
-                const graphPoints = graphulator.generateGraphPoints(functions);
-                
-                const traces = graphPoints.map(points => ({
-                    x: points.x,
-                    y: points.y,
-                    type: 'scatter',
-                    mode: 'lines',
-                    name: points.name,
-                    line: { color: points.color }
-                }));
-                
-                Plotly.newPlot('graphContainer', traces, {
-                    title: `Graph of Functions`,
-                    xaxis: { title: 'x' },
-                    yaxis: { title: 'f(x)' }
-                });
-            } catch (error) {
-                alert('Invalid function. Please check your input.');
-                console.error(error);
-            }
+        const showLoading = () => {
+            document.getElementById("loading").classList.remove("hidden");
+        };
+
+        const hideLoading = () => {
+            document.getElementById("loading").classList.add("hidden");
+        };
+
+        async function generateGraph() {
+          showLoading();
+          const expressionInputs = document.querySelectorAll(".function-input");
+          const functions = Array.from(expressionInputs)
+              .map(input => input.value.trim())
+              .filter(Boolean);
+
+          try {
+              // call the API from Cloud Run
+              const response = await fetch("/api/generate-graph", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    functions,
+                    range: { min: -10, max: 10 }, 
+                  }),
+              });
+
+              if (!response.ok) {
+                throw new Error(`Server Error: ${response.statusText}`);
+              }
+
+              const graphPoints = await response.json();
+
+              if (!graphPoints) {
+                  throw new Error("No graph data received");
+              }
+
+              // hidden loading 
+              hideLoading();
+
+              const traces = graphPoints.map(points => ({
+                x: points.x,
+                y: points.y,
+                type: "scatter",
+                mode: "lines",
+                name: points.name,
+                line: { color: points.color },
+              }));
+
+              Plotly.newPlot("graphContainer", traces, {
+                title: `Graph of Functions`,
+                xaxis: { title: "x" },
+                yaxis: { title: "f(x)" },
+              });
+          } catch (error) {
+            hideLoading();
+            console.error("Error generating graph:", error);
+            alert("Failed to generate graph.");
+          }
         }
 
         // Derivative Calculation Function
         function calculateDerivative() {
-            const expressionInputs = document.querySelectorAll('.function-input');
+            const expressionInputs = document.querySelectorAll(".function-input");
             const functions = Array.from(expressionInputs)
                 .map(input => input.value.trim())
-                .filter(func => func !== '');
-            const derivativePoint = parseFloat(document.getElementById('derivativePoint').value);
+                .filter(func => func !== "");
+            const derivativePoint = parseFloat(document.getElementById("derivativePoint").value);
             
             try {
                 const derivatives = functions.map((func, index) => {
                     const derivative = graphulator.calculateDerivative(func, derivativePoint);
-                    return `${func}: f'(${derivativePoint}) = ${derivative}`;
+                    return `${func}: f"(${derivativePoint}) = ${derivative}`;
                 });
                 
-                document.getElementById('derivativeResult').innerHTML = 
-                    derivatives.join('<br>');
+                document.getElementById("derivativeResult").innerHTML = 
+                    derivatives.join("<br>");
             } catch (error) {
-                alert('Error calculating derivative.');
+                alert("Error calculating derivative.");
                 console.error(error);
             }
         }
 
         // Integral Calculation Function
         function calculateIntegral() {
-            const expressionInputs = document.querySelectorAll('.function-input');
+            const expressionInputs = document.querySelectorAll(".function-input");
             const functions = Array.from(expressionInputs)
                 .map(input => input.value.trim())
-                .filter(func => func !== '');
-            const lowerBound = parseFloat(document.getElementById('integralLower').value);
-            const upperBound = parseFloat(document.getElementById('integralUpper').value);
+                .filter(func => func !== "");
+            const lowerBound = parseFloat(document.getElementById("integralLower").value);
+            const upperBound = parseFloat(document.getElementById("integralUpper").value);
             
             try {
                 const integrals = functions.map((func, index) => {
@@ -328,12 +321,23 @@
                     return `${func}: ∫ f(x) dx from ${lowerBound} to ${upperBound} = ${integral}`;
                 });
                 
-                document.getElementById('integralResult').innerHTML = 
-                    integrals.join('<br>');
+                document.getElementById("integralResult").innerHTML = 
+                    integrals.join("<br>");
             } catch (error) {
-                alert('Error calculating integral.');
+                alert("Error calculating integral.");
                 console.error(error);
             }
+        }
+
+        async function loadGraphData() {
+          try {
+              const response = await fetch("/api/load-graphs");
+              const graphs = await response.json();
+              console.log("Loaded graphs:", graphs);
+              alert(`Loaded ${graphs.length} graphs successfully!`);
+          } catch (error) {
+              console.error("Error loading graphs:", error);
+          }
         }
 
         // Initial graph generation
