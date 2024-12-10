@@ -52,13 +52,21 @@
                   <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 border-solid"></div>
                 </div>
                 <div id="graphContainer" class="w-full h-[400px]"></div>
-                <button 
-                  id="loadGraphDataButton" 
-                  onclick="loadGraphData()" 
-                  class="absolute top-2 right-2 bg-blue-500 text-white px-4 py-2 rounded text-sm hover:bg-blue-600 shadow-lg"
-                >
-                    Load GraphData
-                </button>
+                <div class="absolute top-0 right-0 flex space-x-2 m-2">
+                    <button 
+                        onclick="downloadGraph()" 
+                        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    >
+                        Download PNG
+                    </button>
+                    <button 
+                        id="loadGraphDataButton" 
+                        onclick="loadGraphData()" 
+                        class="bg-blue-500 text-white px-4 py-2 rounded text-sm hover:bg-blue-600 shadow-lg"
+                    >
+                        Load GraphData
+                    </button>
+                </div>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
@@ -338,14 +346,16 @@
           } catch (error) {
               console.error("Error loading graphs:", error);
           }
-          Plotly.downloadImage('graphContainer', {
+        }
+        
+        function downloadGraph() {
+            Plotly.downloadImage('graphContainer', {
                 format: 'png',
                 filename: 'graphulator-plot',
                 height: 400,
                 width: 600
             });
         }
-
         // Initial graph generation
         generateGraph();
     </script>
