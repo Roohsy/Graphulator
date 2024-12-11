@@ -65,5 +65,5 @@ Deploy with Automation
 
 (4) When neither is included, it will only be committed and will not trigger the GitHub action's automatic deployment, such as: 
 
-<code>git commit -m "update"</code>
+```bash git commit -m "update" ``` 
 
