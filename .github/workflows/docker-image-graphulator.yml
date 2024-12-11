@@ -53,4 +53,4 @@ jobs:
 
       - name: Upload HTML to Cloud Storage
         run: |
-          gsutil cp Graphulator.html gs://graphulator/Graphulator.html
+          gsutil cp Graphulator.html gs://graphulator/
