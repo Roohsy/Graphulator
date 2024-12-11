@@ -27,8 +27,9 @@ Technologies/Languages
 - CSS 
 - Python 
 - UI/UX 
-- Top-half – Graph 
-- Bottom-half – User input 
+- Left-bar - Function Input
+- Top-half – Graph Download and Cloud Load
+- Bottom-half – Derivative and Integral Calculation 
 - Home Page - Provides help section, access to previous graphs, or creating a new graph 
 - Calculator Page - Allows basic scientific calculator functionality 
   
