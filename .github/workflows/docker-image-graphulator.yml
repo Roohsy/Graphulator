@@ -1,43 +1,56 @@
-name: Docker Image CI
+name: Deploy to Cloud Run and Update Cloud Storage
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-
-  build:
-
-    runs-on: ubuntu-22.04
-
+  deploy-cloud-run:
+    if: "contains(github.event.head_commit.message, '[CloudRun]')" # Trigger if CloudRun changes are detected
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-  #  - name: Build the Docker image
-  #    run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-    
-    - uses: 'google-github-actions/auth@v2'
-      id: authent
-      name: Authenticate to GCP
-      with:
-        project_id: 'name of the gcp project'
-        workload_identity_provider: "if we have one"
-    
-    - name: gcloud use Docker
-      run: gcloud auth configure-docker us-central1-docker.pkg.dev
-    
-    - name: buildx
-      uses: docker/setup-buildx-action@v3
-      with:
-        platforms: linux/amd64, linus/arm64
-      
-    - name: Build and Push image
-      uses: docker/build-push-action@v6
-      with:
-        context: ./
-        file: ./Dockerfile
-        push: true
-        tags: use-central1-docker.pkg.dev/project_id/Graphulator/docker_repo:v1
-      
-      
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          project_id: "graphulator" # Replace with your project ID
+          workload_identity_provider: "projects/598507763983/locations/global/workloadIdentityPools/github/providers/graphulator"
+
+      - name: Configure Docker
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: true
+          tags: us-central1-docker.pkg.dev/graphulator/gcf-artifacts/graphulator-app:latest
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy graphulator-app \
+            --image us-central1-docker.pkg.dev/graphulator/gcf-artifacts/graphulator-app:latest \
+            --platform managed \
+            --region us-central1 \
+            --allow-unauthenticated
+
+  update-cloud-storage:
+    if: "contains(github.event.head_commit.message, '[CloudStorage]')" # Trigger if CloudStorage changes are detected
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          project_id: "graphulator" # Replace with your project ID
+          workload_identity_provider: "projects/598507763983/locations/global/workloadIdentityPools/github/providers/graphulator"
+
+      - name: Upload HTML to Cloud Storage
+        run: |
+          gsutil cp Graphulator.html gs://graphulator/Graphulator.html
