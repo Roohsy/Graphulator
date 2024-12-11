@@ -20,7 +20,7 @@ jobs:
         uses: google-github-actions/auth@v2
         with:
           project_id: "graphulator" 
-          workload_identity_provider: "projects/598507763983/locations/global/workloadIdentityPools/github/providers/graphulator"
+          workload_identity_provider: "projects/598507763983/locations/global/workloadIdentityPools/githubactions/providers/graphulatorprovider"
           service_account: "598507763983-compute@developer.gserviceaccount.com"
 
       - name: Configure Docker
@@ -56,12 +56,13 @@ jobs:
         uses: google-github-actions/auth@v2
         with:
           project_id: "graphulator"
-          workload_identity_provider: "projects/598507763983/locations/global/workloadIdentityPools/github/providers/graphulator"
+          workload_identity_provider: "projects/598507763983/locations/global/workloadIdentityPools/githubactions/providers/graphulatorprovider"
           service_account: "598507763983-compute@developer.gserviceaccount.com"
 
       - name: Test Authentication
         run: |
           gcloud auth list
+          gcloud config list
 
       - name: Upload HTML to Cloud Storage
         run: |
