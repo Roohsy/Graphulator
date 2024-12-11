@@ -59,6 +59,9 @@ jobs:
           workload_identity_provider: "projects/598507763983/locations/global/workloadIdentityPools/githubactions/providers/graphulatorprovider"
           service_account: "598507763983-compute@developer.gserviceaccount.com"
 
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
       - name: Test Authentication
         run: |
           gcloud auth list
