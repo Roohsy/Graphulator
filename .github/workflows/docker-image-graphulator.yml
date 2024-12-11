@@ -21,7 +21,6 @@ jobs:
         with:
           project_id: "graphulator" 
           workload_identity_provider: "projects/598507763983/locations/global/workloadIdentityPools/githubactions/providers/graphulatorprovider"
-          service_account: "598507763983-compute@developer.gserviceaccount.com"
 
       - name: Configure Docker
         run: gcloud auth configure-docker us-central1-docker.pkg.dev
@@ -57,7 +56,6 @@ jobs:
         with:
           project_id: "graphulator" 
           workload_identity_provider: "projects/598507763983/locations/global/workloadIdentityPools/githubactions/providers/graphulatorprovider"
-          service_account: "598507763983-compute@developer.gserviceaccount.com"
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
