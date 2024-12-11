@@ -24,7 +24,7 @@ jobs:
 
       - name: Configure Docker
         # run: gcloud auth configure-docker us-central1-docker.pkg.dev
-        run: cloud auth configure-docker gcr.io
+        run: gcloud auth configure-docker gcr.io
 
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v6
