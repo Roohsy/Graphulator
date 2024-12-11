@@ -52,7 +52,7 @@ app.post("/api/generate-graph", async (req, res) => {
 // load graphs data
 app.get("/api/load-graphs", async (req, res) => {
   try {
-      const snapshot = await firestore.collection("graphs1").get();
+      const snapshot = await firestore.collection("graphs").get();
       const graphs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       res.json(graphs);
   } catch (error) {
