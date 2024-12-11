@@ -8,7 +8,10 @@ on:
 jobs:
   deploy-cloud-run:
     if: "contains(github.event.head_commit.message, '[CloudRun]')" # Trigger if CloudRun changes are detected
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read 
+      id-token: write  
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -40,7 +43,10 @@ jobs:
 
   update-cloud-storage:
     if: "contains(github.event.head_commit.message, '[CloudStorage]')" # Trigger if CloudStorage changes are detected
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read 
+      id-token: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
