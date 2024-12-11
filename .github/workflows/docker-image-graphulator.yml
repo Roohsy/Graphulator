@@ -36,7 +36,7 @@ jobs:
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy graphulator-app \
-            --image us-central1-docker.pkg.dev/graphulator/graphulator/graphulator-app:latest
+            --image us-central1-docker.pkg.dev/graphulator/graphulator/graphulator-app:latest \
             --platform managed \
             --region us-central1 \
             --allow-unauthenticated
