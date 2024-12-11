@@ -43,7 +43,7 @@ jobs:
             --allow-unauthenticated
 
   update-cloud-storage:
-    if: "contains(github.event.head_commit.message, '[CloudStorage]')" # Trigger if CloudStorage changes are detected
+    if: "contains(github.event.head_commit.message, '[CloudStorage]')" 
     runs-on: ubuntu-22.04
     permissions:
       contents: read 
