@@ -338,47 +338,36 @@
         }
 
         async function loadGraphData() {
-        try {
-            const response = await fetch("/api/load-graphs");
-            const graphs = await response.json();
-            console.log("Loaded graphs:", graphs);
-            // Remove duplicates based on functions
-            const uniqueGraphs = graphs.filter((graph, index, self) => 
-                index === self.findIndex((t) => 
-                    t.functions[0] === graph.functions[0]
-                )
-            );
-            
-            if (uniqueGraphs.length > 0) {
-                // Update the first function input with the first unique function
-                const functionInput = document.querySelector(".function-input");
-                functionInput.value = uniqueGraphs[0].functions[0];
+            try {
+                const response = await fetch("/api/load-graphs");
+                const graphs = await response.json();
                 
-                // Create traces from the graphPoints
-                const traces = uniqueGraphs[0].graphPoints.map(points => ({
-                    x: points.x,
-                    y: points.y,
-                    type: "scatter",
-                    mode: "lines",
-                    name: points.name,
-                    line: { color: points.color },
+                // Find the last item in the graphs array
+                const lastGraph = graphs[graphs.length - 1];
+                
+                // Get the functions from the last graph
+                const functions = lastGraph.functions;
+                
+                // Prepare traces for Plotly
+                const traces = lastGraph.graphPoints.map((graphPoint, index) => ({
+                    x: graphPoint.x,
+                    y: graphPoint.y,
+                    name: functions[index], // Use the function as the trace name
+                    type: 'scatter',
+                    mode: 'lines',
+                    line: {color: graphPoint.color}
                 }));
-
-                // Plot the graph directly using Plotly
-                Plotly.newPlot("graphContainer", traces, {
-                    title: `Loaded Graph: ${uniqueGraphs[0].functions[0]}`,
-                    xaxis: { title: "x" },
-                    yaxis: { title: "f(x)" },
+                
+                // Plot the graph
+                Plotly.newPlot('graphContainer', traces, {
+                    title: 'Graph of Functions',
+                    xaxis: {title: 'X'},
+                    yaxis: {title: 'Y'}
                 });
                 
-                alert(`Loaded unique graphs: ${uniqueGraphs.length} found`);
-            } else {
-                alert("No graphs found.");
+            } catch (error) {
+                console.error("Error loading graphs:", error);
             }
-        } catch (error) {
-            console.error("Error loading graphs:", error);
-            alert("Error loading graph data.");
-        }
         }
         
         function downloadGraph() {
