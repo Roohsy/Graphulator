@@ -341,7 +341,7 @@
         try {
             const response = await fetch("/api/load-graphs");
             const graphs = await response.json();
-            
+            console.log("Loaded graphs:", graphs);
             // Remove duplicates based on functions
             const uniqueGraphs = graphs.filter((graph, index, self) => 
                 index === self.findIndex((t) => 
