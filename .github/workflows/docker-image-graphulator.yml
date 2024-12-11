@@ -55,7 +55,7 @@ jobs:
       - name: Authenticate to GCP
         uses: google-github-actions/auth@v2
         with:
-          project_id: "graphulator"
+          project_id: "graphulator" 
           workload_identity_provider: "projects/598507763983/locations/global/workloadIdentityPools/githubactions/providers/graphulatorprovider"
           service_account: "598507763983-compute@developer.gserviceaccount.com"
 
