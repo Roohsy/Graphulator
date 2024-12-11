@@ -56,7 +56,7 @@ jobs:
         with:
           project_id: "graphulator"
           workload_identity_provider: "projects/598507763983/locations/global/workloadIdentityPools/github/providers/graphulator"
-          service_account: "598507763983-compute@developer.gserviceaccount.com"
+          service_account: "tange0530@gmail.com"
 
       - name: Upload HTML to Cloud Storage
         run: |
