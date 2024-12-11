@@ -54,7 +54,7 @@ jobs:
       - name: Authenticate to GCP
         uses: google-github-actions/auth@v2
         with:
-          project_id: "graphulator" # Replace with your project ID
+          project_id: "graphulator"
           workload_identity_provider: "projects/598507763983/locations/global/workloadIdentityPools/github/providers/graphulator"
 
       - name: Upload HTML to Cloud Storage
