@@ -53,19 +53,25 @@ Deploy with Automation
 
 (1) When the HTML file is changed and only the HTML file needs to be deployed, the git commit message including "[cloudstorage]" will automatically trigger the Cloud Storage deployment task, such as: 
 
-<code>git commit -m "update html [cloudstorage]"</code>
+```bash 
+git commit -m "update html [cloudstorage]"
+```
 
 (2) Similarly, when the commit message includes "[cloudrun]", will only the server part be deployed to Cloud Run, such as: 
 
-<code>git commit -m "update server [cloudrun]"</code>
+```bash 
+git commit -m "update server [cloudrun]"
+```
 
 (3) When the commit message contains both like "[cloudstorage][cloudrun]", two deploy tasks will be triggered to execute in parallel,  such as: 
 
-<code>git commit -m "update [cloudstorage][cloudrun]"</code>
+```bash 
+git commit -m "update [cloudstorage][cloudrun]"
+```
 
 (4) When neither is included, it will only be committed and will not trigger the GitHub action's automatic deployment, such as: 
 
 ```bash 
 git commit -m "update" 
-``` 
+```
 
