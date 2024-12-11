@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy-cloud-run:
-    if: "contains(github.event.head_commit.message, '[CloudRun]')" # Trigger if CloudRun changes are detected
+    if: "contains(github.event.head_commit.message, '[cloudrun]')" # Trigger if cloudrun changes are detected
     runs-on: ubuntu-22.04
     permissions:
       contents: read 
@@ -42,7 +42,7 @@ jobs:
             --allow-unauthenticated
 
   update-cloud-storage:
-    if: "contains(github.event.head_commit.message, '[CloudStorage]')" 
+    if: "contains(github.event.head_commit.message, '[cloudstorage]')" # Trigger if cloudstorage changes are detected
     runs-on: ubuntu-22.04
     permissions:
       contents: read 
@@ -59,11 +59,6 @@ jobs:
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
-
-      - name: Test Authentication
-        run: |
-          gcloud auth list
-          gcloud config list
 
       - name: Upload HTML to Cloud Storage
         run: |
