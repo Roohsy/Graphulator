@@ -341,6 +341,7 @@
             try {
                 const response = await fetch("/api/load-graphs");
                 const graphs = await response.json();
+                console.log("Loaded graphs:", graphs);
                 
                 // Find the last item in the graphs array
                 const lastGraph = graphs[graphs.length - 1];
@@ -365,6 +366,7 @@
                     yaxis: {title: 'Y'}
                 });
                 
+                alert(`Loaded ${graphs.length} graphs successfully!`);
             } catch (error) {
                 console.error("Error loading graphs:", error);
             }
