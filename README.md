@@ -39,10 +39,10 @@ Button Functions
 
 - Download PNG - Download the Graph as PNG
 
-<img src="./docs/Download.PNG" alt="drawing" style="width:200px;"/>
+<img src="./docs/Download.PNG" alt="drawing" style="width:150px;"/>
 - Load GraphData - Access Record of Recent User 
 
-<img src="./docs/Load.PNG" alt="drawing" style="width:200px;"/>
+<img src="./docs/Load.PNG" alt="drawing" style="width:150px;"/>
 
 #### Backend
 
