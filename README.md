@@ -35,16 +35,15 @@ Technologies/Languages
 
 Button Functions
 - Green/Red Button - Add New Function/Delete This Function
-
-![alt text](./docs/Add_Delete.PNG =400x)
+<img src="./docs/Add_Delete.PNG" alt="drawing" style="width:200px;"/>
 
 - Download PNG - Download the Graph as PNG
 
-![alt text](./docs/Download.PNG =400x)
-
+<img src="./docs/Download.PNG" alt="drawing" style="width:200px;"/>
 - Load GraphData - Access Record of Recent User 
 
 ![alt text](./docs/Load.PNG =400x)
+<img src="./docs/Load.PNG" alt="drawing" style="width:200px;"/>
 
 #### Backend
 
