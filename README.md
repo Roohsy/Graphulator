@@ -32,7 +32,14 @@ Technologies/Languages
 - Bottom-half – Derivative and Integral Calculation 
 - Home Page - Provides help section, access to previous graphs, or creating a new graph 
 - Calculator Page - Allows basic scientific calculator functionality 
-  
+
+Button Functions
+- Green/Red Button - Add New Function/Delete This Function
+![alt text](./docs/Add_Delete.PNG)
+- Download PNG - Download the Graph as PNG
+![alt text](./docs/Download.PNG)
+- Load GraphData - Access Record of Recent User 
+![alt text](./docs/Load.PNG) 
 #### Backend
 
 Database and APIs 
